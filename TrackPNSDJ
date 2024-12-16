@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación de Solicitud de Canciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 100px;
+            height: auto;
+            background-color: #fff;
+            border-radius: 50%;
+            padding: 5px;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input, textarea, button {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+        }
+        input, textarea {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .requests {
+            margin-top: 30px;
+        }
+        .request {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="Track PBS Media logo.png" alt="Logo" class="logo">
+        <h1>🎵 Solicitud de Canciones</h1>
+        <form id="requestForm">
+            <label for="songTitle">Título de la Canción</label>
+            <input type="text" id="songTitle" placeholder="Ingresa el título de la canción" required>
+
+            <label for="artist">Artista</label>
+            <input type="text" id="artist" placeholder="Ingresa el nombre del artista" required>
+
+            <label for="name">Tu Nombre (Opcional)</label>
+            <input type="text" id="name" placeholder="Ingresa tu nombre">
+
+            <button type="submit">Enviar Solicitud</button>
+        </form>
+
+        <div class="requests">
+            <h2>🎶 Solicitudes</h2>
+            <div id="requestsList">
+                <!-- Requests will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array para almacenar las solicitudes
+        const requests = [];
+
+        const form = document.getElementById('requestForm');
+        const requestsList = document.getElementById('requestsList');
+
+        // Definir colores para las solicitudes
+        const colors = ['#ff5733', '#33ff57', '#3357ff', '#f1c40f', '#e74c3c', '#9b59b6'];
+
+        // Manejar el envío del formulario
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Obtener valores del formulario
+            const songTitle = document.getElementById('songTitle').value;
+            const artist = document.getElementById('artist').value;
+            const name = document.getElementById('name').value;
+
+            // Crear un nuevo objeto de solicitud
+            const newRequest = {
+                songTitle: songTitle.trim(),
+                artist: artist.trim(),
+                name: name.trim() || 'Anónimo',
+            };
+
+            // Agregar la nueva solicitud al array
+            requests.push(newRequest);
+
+            // Limpiar los campos del formulario
+            form.reset();
+
+            // Actualizar la lista de solicitudes mostradas
+            renderRequests();
+        });
+
+        // Función para renderizar las solicitudes en la página
+        function renderRequests() {
+            requestsList.innerHTML = ''; // Limpiar la lista actual
+
+            requests.forEach((request, index) => {
+                const requestDiv = document.createElement('div');
+                requestDiv.classList.add('request');
+
+                // Asignar un color basado en el índice
+                requestDiv.style.backgroundColor = colors[index % colors.length];
+
+                requestDiv.innerHTML = `
+                    <p><strong>Canción:</strong> ${request.songTitle}</p>
+                    <p><strong>Artista:</strong> ${request.artist}</p>
+                    <p><strong>Solicitado por:</strong> ${request.name}</p>
+                `;
+
+                requestsList.appendChild(requestDiv);
+            });
+        }
+    </script>
+</body>
+</html>
